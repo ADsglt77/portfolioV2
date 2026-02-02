@@ -20,7 +20,7 @@ import {
   iconCursor,
   iconDocker,
   iconPython,
-  iconGithub,
+  iconGithubAction,
   iconFlutter,
   iconFastArrowDown,
 } from './data/icons'
@@ -53,7 +53,7 @@ const technologies: Technology[] = [
   { icon: iconCursor, label: 'Cursor' },
   { icon: iconDocker, label: 'Docker' },
   { icon: iconPython, label: 'Python' },
-  { icon: iconGithub, label: 'GitHub' },
+  { icon: iconGithubAction, label: 'GitHub' },
   { icon: iconFlutter, label: 'Flutter' },
 ]
 
@@ -131,9 +131,9 @@ onUnmounted(() => {
     </div>
     <!-- Div séparée en dessous pour loading et bouton -->
     <div ref="loadingStatusContainerRef" class="loading-status-container">
-      <h4 v-show="!ready" role="status" aria-live="polite">
+      <p v-show="!ready" role="status" aria-live="polite">
         Loading... {{ Math.round(progress) }}%
-      </h4>
+      </p>
       <Button v-show="ready" label="ENTER WEBSITE" @click="handleEnter" />
     </div>
   </div>
@@ -150,7 +150,7 @@ onUnmounted(() => {
         <h1 class="after" :style="{ width: `${progress}%` }">{{ title }}</h1>
       </div>
       <div class="loading-status-container scroll">
-        <h4>Scroll to explore</h4>
+        <h5>Scroll to explore</h5>
         <Icon :icon="iconFastArrowDown" :width="20" :height="20" />
       </div>
       <h5 class="meta day">{{ currentDay }}</h5>
@@ -176,16 +176,16 @@ onUnmounted(() => {
 
     <!-- Section Technologies -->
     <section id="tech" class="section technologies">
-      <div class="technology-item-a">
+      <div>
         <div v-for="tech in technologies" :key="tech.label">
-          <Icon :icon="tech.icon" :width="24" :height="24" />
-          <span class="label">{{ tech.label }}</span>
+          <Icon :icon="tech.icon" :width="34" :height="34" />
+          <h3>{{ tech.label }}</h3>
         </div>
       </div>
-      <div class="technology-item-b">
+      <div>
         <div v-for="tech in technologiesReversed" :key="tech.label">
-          <Icon :icon="tech.icon" :width="24" :height="24" />
-          <span class="label">{{ tech.label }}</span>
+            <Icon :icon="tech.icon" :width="34" :height="34" />
+            <h3>{{ tech.label }}</h3>
         </div>
       </div>
     </section>
@@ -236,9 +236,6 @@ onUnmounted(() => {
 }
 
 .hero-title h1 {
-  font-family: var(--font-title);
-  font-size: clamp(4rem, 16vw, 12rem);
-  font-weight: 600;
   color: color-mix(in srgb, var(--text) 10%, transparent);
 }
 
@@ -265,9 +262,6 @@ onUnmounted(() => {
   gap: var(--spacing-md);
 }
 
-.loading-status-container h4 {
-  font-weight: 300;
-}
 
 .section.home .loading-status-container.scroll {
   position: absolute;
@@ -339,7 +333,6 @@ main .home-bg {
   position: absolute;
   bottom: var(--spacing-3xl);
   color: var(--muted);
-  font-weight: 400;
   z-index: 1;
   opacity: 1;
 }
@@ -382,10 +375,7 @@ main .home-bg {
 
 .section.about .title h2 {
   position: absolute;
-  font-family: var(--font-title);
   left: -200px;
-  font-size: clamp(2rem, 8vw, 4rem);
-  font-weight: 500;
   text-transform: uppercase;
 }
 
@@ -435,13 +425,11 @@ main .home-bg {
 /* -------------------------------- */
 
 .section.technologies {
-  height: 100%;
-  margin: 100px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-3xl);
 }
 
 .section.technologies > div {
@@ -449,7 +437,7 @@ main .home-bg {
   display: flex;
   gap: var(--spacing-md);
   overflow-x: auto;
-  overflow-y: hidden;
+  text-transform: uppercase;
 }
 
 .section.technologies > div > div {
@@ -457,23 +445,12 @@ main .home-bg {
   align-items: center;
   justify-content: center;
   gap: var(--spacing-sm);
-  background-color: color-mix(in srgb, var(--text) 10%, transparent);
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-md);
-  flex-shrink: 0;
-  white-space: nowrap;
-  width: 180px;
-  min-width: 180px;
+  padding: var(--spacing-lg);
 }
+
 
 .section.technologies > div:nth-child(2) {
   flex-direction: row-reverse;
-}
-
-.section.technologies > div > div svg {
-  width: 24px;
-  height: 24px;
-  flex-shrink: 0;
 }
 
 /* -------------------------------- */
