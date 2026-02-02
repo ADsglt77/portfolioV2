@@ -79,63 +79,61 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <audio ref="audioRef" :src="audioFile" loop preload="auto" muted></audio>
-    <!-- enlever attribut muted en production -->
-    <!-- loader (loader + enter) -->
-    <div v-show="!entered" class="loader" role="dialog" aria-modal="true">
-      <!-- Titre avec effet de remplissage -->
-      <div class="hero-title">
-        <h1>{{ title }}</h1>
-        <h1 :style="{ width: `${progress}%` }">{{ title }}</h1>
-      </div>
-      <!-- Div séparée en dessous pour loading et bouton -->
-      <div ref="loadingStatusContainerRef" class="loading-status-container">
-        <h4 v-show="!ready" role="status" aria-live="polite">Loading... {{ Math.round(progress) }}%</h4>
-        <Button v-show="ready" label="ENTER WEBSITE" @click="handleEnter" />
-      </div>
+  <audio ref="audioRef" :src="audioFile" loop preload="auto" muted></audio>
+  <!-- enlever attribut muted en production -->
+  <!-- loader (loader + enter) -->
+  <div v-show="!entered" class="loader" role="dialog" aria-modal="true">
+    <!-- Titre avec effet de remplissage -->
+    <div class="hero-title">
+      <h1>{{ title }}</h1>
+      <h1 :style="{ width: `${progress}%` }">{{ title }}</h1>
     </div>
+    <!-- Div séparée en dessous pour loading et bouton -->
+    <div ref="loadingStatusContainerRef" class="loading-status-container">
+      <h4 v-show="!ready" role="status" aria-live="polite">
+        Loading... {{ Math.round(progress) }}%
+      </h4>
+      <Button v-show="ready" label="ENTER WEBSITE" @click="handleEnter" />
+    </div>
+  </div>
 
-    <!-- Site (après ENTER) -->
-    <main v-show="entered" class="site-content">
-      <!-- Section Home -->
-      <section id="home" class="section home">
-        <div class="home-bg-overlay" aria-hidden="true"></div>
-        <div class="home-bg" aria-hidden="true"></div>
-        <img :src="logo" alt="Logo" />
-        <Nav />
-        <div class="hero-title">
-          <h1 class="after" :style="{ width: `${progress}%` }">{{ title }}</h1>
-        </div>
-        <div class="loading-status-container scroll">
-          <h4>Scroll to explore</h4>
-          <Icon icon="iconoir:fast-arrow-down" :width="20" :height="20" />
-        </div>
-        <h5 class="meta day">{{ currentDay }}</h5>
-        <h5 class="meta time">{{ currentTime }}</h5>
-      </section>
+  <!-- Site (après ENTER) -->
+  <main v-show="entered" class="site-content">
+    <!-- Section Home -->
+    <section id="home" class="section home">
+      <div class="home-bg-overlay" aria-hidden="true"></div>
+      <div class="home-bg" aria-hidden="true"></div>
+      <img :src="logo" alt="Logo" />
+      <Nav />
+      <div class="hero-title">
+        <h1 class="after" :style="{ width: `${progress}%` }">{{ title }}</h1>
+      </div>
+      <div class="loading-status-container scroll">
+        <h4>Scroll to explore</h4>
+        <Icon icon="iconoir:fast-arrow-down" :width="20" :height="20" />
+      </div>
+      <h5 class="meta day">{{ currentDay }}</h5>
+      <h5 class="meta time">{{ currentTime }}</h5>
+    </section>
 
-      <!-- Section About -->
-      <section id="about" class="section about">
-        <img :src="aboutImg" alt="About" />
-        <div class="title">
-          <h2 class="heading-stroke">
-            Développeur full-stack, web et application mobile
-          </h2>
-          <h2 class="heading">
-            Développeur full-stack, web et application mobile
-          </h2>
-        </div>
-        <div class="subtitle">
-          <p>
-            Je suis alternant chez Therasoft en Bachelor C.D.W.M. (Concepteur Développeur Web et Mobile) passionné par le développement web, le design, et
-            grand amateur de basket-ball. Créatif et curieux, j’aime allier technique et esthétique
-            dans mes projets.
-          </p>
-          <Button label="Contactez moi" />
-        </div>
-      </section>
+    <!-- Section About -->
+    <section id="about" class="section about">
+      <img :src="aboutImg" alt="About" />
+      <div class="title">
+        <h2 class="heading-stroke">Développeur full-stack, web et application mobile</h2>
+        <h2 class="heading">Développeur full-stack, web et application mobile</h2>
+      </div>
+      <div class="subtitle">
+        <p>
+          Je suis alternant chez Therasoft en Bachelor C.D.W.M. (Concepteur Développeur Web et
+          Mobile) passionné par le développement web, le design, et grand amateur de basket-ball.
+          Créatif et curieux, j’aime allier technique et esthétique dans mes projets.
+        </p>
+        <Button label="Contactez moi" />
+      </div>
+    </section>
 
-      <!-- Section Expérience
+    <!-- Section Expérience
       <section id="experience" class="section experience">
         <h2>Expérience</h2>
         <p>Mon parcours professionnel...</p>
@@ -153,12 +151,10 @@ onUnmounted(() => {
         <p>Contactez-moi...</p>
       </section>
        -->
-    </main>
+  </main>
 </template>
 
 <style scoped>
-
-
 /* loader (loader + enter) */
 .loader {
   height: 100vh;
@@ -216,22 +212,6 @@ onUnmounted(() => {
   z-index: 1;
 }
 
-.section.home .loading-status-container.scroll :deep(svg) {
-  animation: scroll-float 3s ease-in-out infinite;
-}
-
-@keyframes scroll-float {
-  0%,
-  100% {
-    transform: translateY(0);
-    opacity: 0.3;
-  }
-  50% {
-    transform: translateY(8px);
-    opacity: 1;
-  }
-}
-
 .section {
   height: 100vh;
   display: flex;
@@ -253,15 +233,8 @@ onUnmounted(() => {
   inset: 0;
   background: var(--bg);
   z-index: 0;
-  opacity: 1;
-  animation: fade-out-green 1.5s ease-out forwards;
+  opacity: 0;
   pointer-events: none;
-}
-
-@keyframes fade-out-green {
-  to {
-    opacity: 0;
-  }
 }
 
 .home-bg {
@@ -274,27 +247,11 @@ onUnmounted(() => {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  will-change: transform, opacity;
-  transform: scale(1.06);
-  opacity: 0;
-  transition: opacity 900ms ease;
-  animation: bgBreath 18s ease-in-out infinite;
+  opacity: 1;
 }
 
 main .home-bg {
   opacity: 1;
-}
-
-@keyframes bgBreath {
-  0% {
-    transform: scale(1.06) translate3d(0, 0, 0);
-  }
-  50% {
-    transform: scale(1.09) translate3d(0, -1.5%, 0);
-  }
-  100% {
-    transform: scale(1.06) translate3d(0, 0, 0);
-  }
 }
 
 .section.home img {
@@ -304,27 +261,12 @@ main .home-bg {
   top: var(--spacing-2xl);
   left: var(--spacing-2xl);
   z-index: 1;
-  opacity: 0;
-  animation: fade-in 2s ease-out 1s forwards;
+  opacity: 1;
 }
 
 .section.home :deep(nav) {
   z-index: 1;
-  opacity: 0;
-  animation: fade-in 2s ease-out 1s forwards;
-}
-
-@keyframes fade-in {
-  to {
-    opacity: 1;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .home-bg {
-    animation: none;
-    transform: none;
-  }
+  opacity: 1;
 }
 
 .meta {
@@ -333,8 +275,7 @@ main .home-bg {
   color: var(--muted);
   font-weight: 400;
   z-index: 1;
-  opacity: 0;
-  animation: fade-in 2s ease-out 1s forwards;
+  opacity: 1;
 }
 
 .meta.day {
