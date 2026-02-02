@@ -1,11 +1,14 @@
 <script setup lang="ts">
-import { ref, inject } from 'vue'
+import { ref, inject, computed } from 'vue'
 import { Icon } from '@iconify/vue'
 import { scrambleText } from '../lib/textScramble'
 import Button from './Button.vue'
+import { iconSoundOff, iconSoundHigh } from '../data/icons'
 
 const audioRef = inject<{ value: HTMLAudioElement | null }>('audioRef')
 const isMuted = ref(true) // mettre false en production
+
+const soundIcon = computed(() => (isMuted.value ? iconSoundOff : iconSoundHigh))
 
 const toggleMute = () => {
   isMuted.value = !isMuted.value
@@ -30,16 +33,14 @@ const handleScramble = (e: Event, text: string) => {
     <a href="#experience" class="nav-link" @mouseenter="handleScramble($event, 'WORK')">
       <p>WORK</p>
     </a>
+    <a href="#projects" class="nav-link" @mouseenter="handleScramble($event, 'PROJECTS')">
+      <p>PROJECTS</p>
+    </a>
     <a href="#contact" class="nav-link" @mouseenter="handleScramble($event, 'CONTACT')">
       <p>CONTACT</p>
     </a>
     <Button padding="0.6rem" borderRadius="50%" @click="toggleMute">
-      <Icon
-        :icon="isMuted ? 'iconoir:sound-off' : 'iconoir:sound-high'"
-        :width="16"
-        :height="16"
-        :stroke-width="3"
-      />
+      <Icon :icon="soundIcon" :width="16" :height="16" :stroke-width="3" />
     </Button>
   </nav>
 </template>
