@@ -12,9 +12,9 @@ import aboutImg from '../assets/img/about-silhouette-in-forest.jpg'
     </div>
     <div class="subtitle">
       <p>
-        Je suis alternant chez Therasoft en Bachelor C.D.W.M. (Concepteur Développeur Web et
-        Mobile) passionné par le développement web, le design, et grand amateur de basket-ball.
-        Créatif et curieux, j'aime allier technique et esthétique dans mes projets.
+        Je suis alternant chez Therasoft en Bachelor C.D.W.M. (Concepteur Développeur Web et Mobile)
+        passionné par le développement web, le design, et grand amateur de basket-ball. Créatif et
+        curieux, j'aime allier technique et esthétique dans mes projets.
       </p>
       <Button label="Contactez moi" />
     </div>
