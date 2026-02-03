@@ -1,10 +1,21 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, inject, watch } from 'vue'
 import { Icon } from '@iconify/vue'
 import Nav from '../components/Nav.vue'
 import { iconFastArrowDown } from '../data/icons'
 import logo from '../assets/img/logo.svg'
 import heroBg from '../assets/img/hero-misty-forest.jpg'
+
+const entered = inject('entered', ref(false))
+const showElements = ref(false)
+
+watch(entered, (val) => {
+  if (val) {
+    setTimeout(() => {
+      showElements.value = true
+    }, 1000)
+  }
+})
 
 const progress = ref(0)
 const currentDay = ref('')
@@ -13,7 +24,9 @@ let timeIntervalId: number | undefined
 
 const title = 'ADRIEN'
 
-const bgImage = computed(() => `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url("${heroBg}")`)
+const bgImage = computed(
+  () => `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url("${heroBg}")`,
+)
 
 onMounted(() => {
   const startTime = Date.now()
@@ -59,23 +72,21 @@ onUnmounted(() => {
 
 <template>
   <section id="home" class="section home">
-    <div class="home-bg-overlay" aria-hidden="true"></div>
-    <div class="home-bg" data-anim="home-bg" aria-hidden="true"></div>
-    <img :src="logo" alt="Logo" data-anim="home-logo" />
-    <div data-anim="home-nav">
-      <Nav />
-    </div>
-    <div class="hero-title">
-      <h1 class="after" data-anim="home-title" :style="{ width: `${progress}%` }">
-        {{ title }}
-      </h1>
-    </div>
-    <div class="loading-status-container scroll" data-anim="home-scrollhint">
+    <div :class="{ 'overlay--fade': entered }" class="overlay" aria-hidden="true"></div>
+    <div class="bg" aria-hidden="true"></div>
+    <img :class="{ 'visible': showElements }" :src="logo" alt="Logo" />
+    <div :class="{ visible: showElements }"><Nav /></div>
+    <h1>{{ title }}</h1>
+    <div :class="{ 'visible slide-up': showElements }" class="scroll">
       <h5>Scroll to explore</h5>
-      <Icon :icon="iconFastArrowDown" :width="20" :height="20" />
+      <Icon class="scroll-icon" :icon="iconFastArrowDown" :width="20" :height="20" />
     </div>
-    <h5 class="meta day" data-anim="home-meta-day">{{ currentDay }}</h5>
-    <h5 class="meta time" data-anim="home-meta-time">{{ currentTime }}</h5>
+    <h5 :class="{ 'visible slide-left': showElements }" class="meta day">
+      {{ currentDay }}
+    </h5>
+    <h5 :class="{ 'visible slide-right': showElements }" class="meta time">
+      {{ currentTime }}
+    </h5>
   </section>
 </template>
 
@@ -85,16 +96,16 @@ onUnmounted(() => {
   overflow: hidden;
 }
 
-.home-bg-overlay {
+.overlay {
   position: absolute;
   inset: 0;
   background: var(--bg);
   z-index: 0;
-  opacity: 0;
+  opacity: 1;
   pointer-events: none;
 }
 
-.home-bg {
+.bg {
   position: absolute;
   inset: 0;
   z-index: -1;
@@ -112,20 +123,21 @@ onUnmounted(() => {
   top: var(--spacing-2xl);
   left: var(--spacing-2xl);
   z-index: 1;
-  opacity: 1;
+  opacity: 0;
 }
 
-.section.home :deep(nav) {
+.section.home > div:has(nav) {
   z-index: 1;
-  opacity: 1;
+  opacity: 0;
 }
 
-.hero-title {
-  position: relative;
-  z-index: 1;
+h1 {
+  color: var(--text);
+  opacity: 1 !important;
+  z-index: 100 !important;
 }
 
-.loading-status-container.scroll {
+.scroll {
   position: absolute;
   bottom: var(--spacing-xl);
   left: 0;
@@ -136,6 +148,8 @@ onUnmounted(() => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  opacity: 0;
+  transform: translateY(30px);
 }
 
 .meta {
@@ -143,14 +157,122 @@ onUnmounted(() => {
   bottom: var(--spacing-3xl);
   color: var(--muted);
   z-index: 1;
-  opacity: 1;
+  opacity: 0;
 }
 
 .meta.day {
   left: var(--spacing-3xl);
+  transform: translateX(-30px);
 }
 
 .meta.time {
   right: var(--spacing-3xl);
+  transform: translateX(30px);
+}
+
+/* Animations */
+
+.overlay--fade {
+  animation: fade-out 3s ease-out forwards;
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.visible {
+  animation: fade-in 0.5s ease-out forwards;
+  animation-delay: 1s;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.slide-up {
+  animation: slide-up 1.5s ease-out forwards;
+  animation-delay: 1s;
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slide-down {
+  animation: slide-down 1.5s ease-out forwards;
+  animation-delay: 1s;
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slide-left {
+  animation: slide-left 1.5s ease-out forwards;
+  animation-delay: 1s;
+}
+
+@keyframes slide-left {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.slide-right {
+  animation: slide-right 1.5s ease-out forwards;
+  animation-delay: 1s;
+}
+
+@keyframes slide-right {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.scroll-icon {
+  animation: bounce 1.5s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(10px);
+  }
 }
 </style>
