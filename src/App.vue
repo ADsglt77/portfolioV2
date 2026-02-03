@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, provide, watch, nextTick } from 'vue'
+import { onMounted, onUnmounted, ref, provide, watch, watchEffect, nextTick } from 'vue'
 import Button from './components/Button.vue'
 import HomePage from './pages/HomePage.vue'
 import AboutPage from './pages/AboutPage.vue'
@@ -7,6 +7,7 @@ import TechnologiesPage from './pages/TechnologiesPage.vue'
 import TimelinePage from './pages/TimelinePage.vue'
 import ProjectsPage from './pages/ProjectsPage.vue'
 import audioFile from './assets/sound/Flickering-Flames.mp3'
+import { useLenis } from './composables/useLenis'
 
 const progress = ref(0)
 const ready = ref(false)
@@ -16,6 +17,8 @@ const title = ref('ADRIEN')
 const audioRef = ref<HTMLAudioElement>()
 const loadingStatusContainerRef = ref<HTMLElement>()
 const loadingStatusHeight = ref(0)
+
+const { start: startLenis, stop: stopLenis } = useLenis()
 
 provide('audioRef', audioRef)
 provide('entered', entered)
@@ -53,7 +56,18 @@ const handleEnter = () => {
   entered.value = true
   isButtonFading.value = true
   audioRef.value?.play().catch(() => {})
+  startLenis()
 }
+
+// Scroll lock : bloquer le scroll avant ENTER, libérer après
+watchEffect(() => {
+  document.body.style.overflow = entered.value ? '' : 'hidden'
+})
+
+onUnmounted(() => {
+  stopLenis()
+  document.body.style.overflow = ''
+})
 </script>
 
 <template>
