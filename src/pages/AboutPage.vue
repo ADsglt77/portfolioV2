@@ -1,14 +1,23 @@
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import Button from '../components/Button.vue'
 import aboutImg from '../assets/img/about-silhouette-in-forest.jpg'
+import { typing } from '../lib/typing'
+
+const fullText = 'Développeur full-stack, web et application mobile'
+const displayedText = ref('')
+
+onMounted(() => {
+  typing(displayedText, fullText, { duration: 3000 })
+})
 </script>
 
 <template>
   <section id="about" class="section about">
     <img :src="aboutImg" alt="About" />
     <div class="title">
-      <h2 class="heading-stroke">Développeur full-stack, web et application mobile</h2>
-      <h2 class="heading">Développeur full-stack, web et application mobile</h2>
+      <h2 class="heading-stroke visible">{{ fullText }}</h2>
+      <h2 class="heading">{{ displayedText }}</h2>
     </div>
     <div class="subtitle">
       <p>
