@@ -1,22 +1,27 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, inject, type Ref } from 'vue'
 import Button from '../components/Button.vue'
 import aboutImg from '../assets/img/about-silhouette-in-forest.jpg'
-import { typing } from '../lib/typing'
+import { usePinnedTyping } from '../composables/usePinnedTyping'
+
+const entered = inject<Ref<boolean>>('entered')!
 
 const fullText = 'Développeur full-stack, web et application mobile'
 const displayedText = ref('')
+const sectionRef = ref<HTMLElement | null>(null)
 
-onMounted(() => {
-  typing(displayedText, fullText, { duration: 3000 })
+usePinnedTyping(sectionRef, fullText, displayedText, {
+  active: entered,
+  typingDuration: 2000,
+  threshold: 0.3,
 })
 </script>
 
 <template>
-  <section id="about" class="section about">
+  <section ref="sectionRef" id="about" class="section about">
     <img :src="aboutImg" alt="About" />
     <div class="title">
-      <h2 class="heading-stroke visible">{{ fullText }}</h2>
+      <h2 class="heading-stroke">{{ displayedText }}</h2>
       <h2 class="heading">{{ displayedText }}</h2>
     </div>
     <div class="subtitle">
@@ -35,6 +40,8 @@ onMounted(() => {
   width: 100%;
   max-width: 80vw;
   margin: 0 auto;
+  padding: var(--spacing-3xl) var(--spacing-xl);
+  min-height: 100vh;
   display: grid;
   grid-template-columns: minmax(280px, 520px) minmax(320px, 1fr);
   gap: var(--spacing-2xl);
@@ -65,11 +72,13 @@ onMounted(() => {
   color: transparent;
   -webkit-text-stroke: 40px var(--bg);
   z-index: 1;
+  clip-path: none; /* IMPORTANT: typing visible */
 }
 
 .section.about .title .heading {
   color: var(--text);
   z-index: 2;
+  clip-path: none; /* sinon le typing sera caché */
 }
 
 .section.about .subtitle {
