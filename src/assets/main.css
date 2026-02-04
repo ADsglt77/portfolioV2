@@ -249,10 +249,10 @@ span {
 
 @keyframes immersive-bg {
   from {
-    background-size: 100%;
+    transform: scale(1);
   }
   to {
-    background-size: 110%;
+    transform: scale(1.1);
   }
 }
 
