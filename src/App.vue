@@ -117,6 +117,7 @@ onUnmounted(() => {
   <!-- Site (après ENTER) -->
   <main v-show="entered" class="site-content">
     <HomePage />
+    <div class="gradient-overlay"></div>
     <AboutPage />
     <TechnologiesPage />
     <TimelinePage />
@@ -167,5 +168,14 @@ h1 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.gradient-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 20%;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0), var(--bg));
 }
 </style>
