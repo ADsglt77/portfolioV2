@@ -11,13 +11,9 @@ export function usePinnedTyping(
   sectionRef: Ref<HTMLElement | null>,
   fullText: string,
   displayedText: Ref<string>,
-  options: Options = {}
+  options: Options = {},
 ) {
-  const {
-    active,
-    typingDuration = 3000,
-    threshold = 0.3,
-  } = options
+  const { active, typingDuration = 3000, threshold = 0.3 } = options
 
   let hasTyped = false
   let observer: IntersectionObserver | null = null
@@ -36,7 +32,7 @@ export function usePinnedTyping(
           }
         })
       },
-      { threshold }
+      { threshold },
     )
 
     observer.observe(sectionRef.value)
@@ -44,13 +40,13 @@ export function usePinnedTyping(
 
   // start when active becomes true (or immediately if no active ref)
   watch(
-    active ?? ( { value: true } as Ref<boolean> ),
+    active ?? ({ value: true } as Ref<boolean>),
     async (isActive) => {
       if (!isActive) return
       await nextTick()
       setupObserver()
     },
-    { immediate: true }
+    { immediate: true },
   )
 
   onUnmounted(() => {
