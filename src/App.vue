@@ -18,7 +18,18 @@ const audioRef = ref<HTMLAudioElement>()
 const loadingStatusContainerRef = ref<HTMLElement>()
 const loadingStatusHeight = ref(0)
 
-const { start: startLenis, stop: stopLenis } = useLenis()
+// Configuration de la vitesse de scroll
+// Ajustez ces valeurs pour modifier la vitesse :
+// - lerp: 0.01-0.1 (plus bas = plus lent/smooth, plus haut = plus rapide)
+// - duration: durée de l'animation en secondes
+// - wheelMultiplier: vitesse de la molette (1 = normal, 2 = 2x plus rapide)
+// - touchMultiplier: vitesse sur mobile (2 = normal, 4 = 2x plus rapide)
+const { start: startLenis, stop: stopLenis } = useLenis({
+  lerp: 0.5, // Vitesse de lissage (défaut: 0.06)
+  duration: 3, // Durée de l'animation (défaut: 1.2s)
+  wheelMultiplier: 0.5, // Vitesse molette (défaut: 1)
+  touchMultiplier: 1, // Vitesse mobile (défaut: 2)
+})
 
 provide('audioRef', audioRef)
 provide('entered', entered)
