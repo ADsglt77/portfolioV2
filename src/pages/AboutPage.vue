@@ -3,17 +3,29 @@ import { ref, inject, type Ref } from 'vue'
 import Button from '../components/Button.vue'
 import aboutImg from '../assets/img/about-silhouette-in-forest.jpg'
 import { usePinnedTyping } from '../composables/usePinnedTyping'
+import { useTextReveal } from '../composables/useTextReveal'
 
 const entered = inject<Ref<boolean>>('entered')!
 
 const fullText = 'Développeur full-stack, web et application mobile'
 const displayedText = ref('')
 const sectionRef = ref<HTMLElement | null>(null)
+const paragraphRef = ref<HTMLParagraphElement | null>(null)
+
+const paragraphText = `Je suis alternant chez Therasoft en Bachelor C.D.W.M. (Concepteur Développeur Web et Mobile) passionné par le développement web, le design, et grand amateur de basket-ball. Créatif et curieux, j'aime allier technique et esthétique dans mes projets.`
 
 usePinnedTyping(sectionRef, fullText, displayedText, {
   active: entered,
-  typingDuration: 2000,
   threshold: 0.3,
+  typingDuration: 2000,
+})
+
+// Utiliser le composable useTextReveal pour déclencher l'animation au scroll
+useTextReveal(paragraphRef, paragraphText, {
+  active: entered,
+  threshold: 0.5,
+  rootMargin: '-100px',
+  delay: 3,
 })
 </script>
 
@@ -25,11 +37,7 @@ usePinnedTyping(sectionRef, fullText, displayedText, {
       <h2 class="heading">{{ displayedText }}</h2>
     </div>
     <div class="subtitle">
-      <p>
-        Je suis alternant chez Therasoft en Bachelor C.D.W.M. (Concepteur Développeur Web et Mobile)
-        passionné par le développement web, le design, et grand amateur de basket-ball. Créatif et
-        curieux, j'aime allier technique et esthétique dans mes projets.
-      </p>
+      <p ref="paragraphRef"></p>
       <Button label="Contactez moi" />
     </div>
   </section>
@@ -89,6 +97,10 @@ usePinnedTyping(sectionRef, fullText, displayedText, {
   gap: var(--spacing-lg);
   align-self: center;
   line-height: 1.8rem;
+}
+
+.section.about .subtitle p {
+  min-height: 160px;
 }
 
 @media (max-width: 900px) {
