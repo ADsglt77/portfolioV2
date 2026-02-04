@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, inject, onMounted, onUnmounted, nextTick, type Ref } from 'vue'
+import { ref, inject, onMounted, onUnmounted, nextTick, watch, type Ref } from 'vue'
 import { Icon } from '@iconify/vue'
 import { fadeIn } from '../lib/fadeIn'
 
@@ -18,28 +18,44 @@ interface Props {
 const props = defineProps<Props>()
 const entered = inject<Ref<boolean>>('entered')!
 const contentRefs = ref<(HTMLElement | null)[]>([])
+const hasAnimated = new Set<number>()
 let observer: IntersectionObserver | null = null
 
-onMounted(async () => {
+onMounted(() => {
+  contentRefs.value = Array(props.items.length).fill(null)
+})
+
+const setupObserver = async () => {
   if (!entered.value) return
   await nextTick()
+  await nextTick() // Double nextTick pour s'assurer que les refs sont assignées
+
+  if (observer) {
+    observer.disconnect()
+  }
 
   observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (!(entry.target instanceof HTMLElement)) return
-        
-        const index = parseInt(entry.target.dataset.index || '0', 10)
+        const index = parseInt((entry.target as HTMLElement).dataset.index || '0', 10)
         
         if (entry.isIntersecting) {
-          fadeIn(entry.target, {
+          if (hasAnimated.has(index)) return
+          
+          hasAnimated.add(index)
+          fadeIn(entry.target as HTMLElement, {
             duration: 800,
             delay: index * 100,
             translateY: 30,
           })
         } else {
-          entry.target.style.opacity = '0'
-          entry.target.style.transform = 'translateY(30px)'
+          // Réinitialiser quand on sort du viewport
+          if (hasAnimated.has(index)) {
+            hasAnimated.delete(index)
+            const target = entry.target as HTMLElement
+            target.style.opacity = '0'
+            target.style.transform = 'translateY(30px)'
+          }
         }
       })
     },
@@ -53,7 +69,13 @@ onMounted(async () => {
       observer?.observe(ref)
     }
   })
-})
+}
+
+watch(entered, (isEntered) => {
+  if (isEntered) {
+    setupObserver()
+  }
+}, { immediate: true })
 
 onUnmounted(() => {
   observer?.disconnect()
