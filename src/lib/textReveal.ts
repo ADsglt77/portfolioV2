@@ -13,7 +13,7 @@ export function textReveal(
   const normalizedText = text.trim().replace(/\s+/g, ' ')
 
   element.innerHTML = ''
-  
+
   // Diviser le texte en mots pour préserver l'intégrité des mots
   const words = normalizedText.split(' ')
   const spans: HTMLSpanElement[] = []
@@ -23,7 +23,7 @@ export function textReveal(
     const wordSpan = document.createElement('span')
     wordSpan.style.display = 'inline-block'
     wordSpan.style.whiteSpace = 'nowrap'
-    
+
     // Créer un span pour chaque caractère du mot
     const wordChars = word.split('')
     wordChars.forEach((char) => {
@@ -35,7 +35,7 @@ export function textReveal(
       wordSpan.appendChild(charSpan)
       spans.push(charSpan)
     })
-    
+
     // Ajouter un espace après chaque mot (sauf le dernier)
     if (wordIndex < words.length - 1) {
       const spaceSpan = document.createElement('span')
@@ -46,7 +46,7 @@ export function textReveal(
       wordSpan.appendChild(spaceSpan)
       spans.push(spaceSpan)
     }
-    
+
     element.appendChild(wordSpan)
   })
 

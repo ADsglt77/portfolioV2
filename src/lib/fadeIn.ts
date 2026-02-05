@@ -6,17 +6,8 @@ export interface FadeInOptions {
   opacity?: number // Opacité finale (0-1)
 }
 
-export function fadeIn(
-  element: HTMLElement,
-  options: FadeInOptions = {},
-): number {
-  const {
-    duration = 800,
-    delay = 0,
-    translateY = 20,
-    translateX = 0,
-    opacity = 1,
-  } = options
+export function fadeIn(element: HTMLElement, options: FadeInOptions = {}): number {
+  const { duration = 800, delay = 0, translateY = 20, translateX = 0, opacity = 1 } = options
 
   element.style.opacity = '0'
   element.style.transform = `translate(${translateX}px, ${translateY}px)`
@@ -27,4 +18,3 @@ export function fadeIn(
     element.style.transform = 'translate(0, 0)'
   }, delay)
 }
-
