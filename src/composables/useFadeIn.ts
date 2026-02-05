@@ -7,10 +7,7 @@ type UseFadeInOptions = {
   threshold?: number // seuil IntersectionObserver (ex: 0.3)
 } & FadeInOptions
 
-export function useFadeIn(
-  elementRef: Ref<HTMLElement | null>,
-  options: UseFadeInOptions = {},
-) {
+export function useFadeIn(elementRef: Ref<HTMLElement | null>, options: UseFadeInOptions = {}) {
   const {
     active,
     threshold = 0.3,
@@ -45,7 +42,13 @@ export function useFadeIn(
           if (entry.isIntersecting && !hasAnimated && active.value) {
             hasAnimated = true
             if (elementRef.value) {
-              timeoutId = fadeIn(elementRef.value, { duration, delay, translateY, translateX, opacity })
+              timeoutId = fadeIn(elementRef.value, {
+                duration,
+                delay,
+                translateY,
+                translateX,
+                opacity,
+              })
             }
           } else if (!entry.isIntersecting && hasAnimated) {
             hasAnimated = false
@@ -88,4 +91,3 @@ export function useFadeIn(
     },
   }
 }
-

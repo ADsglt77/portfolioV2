@@ -55,8 +55,8 @@ export function useLenis(options: LenisOptions = {}) {
 
   onUnmounted(stop)
 
-  return { 
-    start, 
+  return {
+    start,
     stop,
     getInstance: () => state.lenis,
   }
