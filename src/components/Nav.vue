@@ -43,16 +43,36 @@ const scrollToSection = (e: Event, sectionId: string) => {
 
 <template>
   <nav>
-    <a href="#about" class="nav-link" @click="scrollToSection($event, '#about')" @mouseenter="handleScramble($event, 'ABOUT')">
+    <a
+      href="#about"
+      class="nav-link"
+      @click="scrollToSection($event, '#about')"
+      @mouseenter="handleScramble($event, 'ABOUT')"
+    >
       <span>ABOUT</span>
     </a>
-    <a href="#timeline" class="nav-link" @click="scrollToSection($event, '#timeline')" @mouseenter="handleScramble($event, 'EXPERIENCE')">
+    <a
+      href="#timeline"
+      class="nav-link"
+      @click="scrollToSection($event, '#timeline')"
+      @mouseenter="handleScramble($event, 'EXPERIENCE')"
+    >
       <span>EXPERIENCE</span>
     </a>
-    <a href="#projects" class="nav-link" @click="scrollToSection($event, '#projects')" @mouseenter="handleScramble($event, 'PROJECTS')">
+    <a
+      href="#projects"
+      class="nav-link"
+      @click="scrollToSection($event, '#projects')"
+      @mouseenter="handleScramble($event, 'PROJECTS')"
+    >
       <span>PROJECTS</span>
     </a>
-    <a href="#contact" class="nav-link" @click="scrollToSection($event, '#contact')" @mouseenter="handleScramble($event, 'CONTACT')">
+    <a
+      href="#contact"
+      class="nav-link"
+      @click="scrollToSection($event, '#contact')"
+      @mouseenter="handleScramble($event, 'CONTACT')"
+    >
       <span>CONTACT</span>
     </a>
     <Button padding="0.6rem" borderRadius="50%" @click="toggleMute">

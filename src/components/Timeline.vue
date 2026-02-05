@@ -38,10 +38,10 @@ const setupObserver = async () => {
     (entries) => {
       entries.forEach((entry) => {
         const index = parseInt((entry.target as HTMLElement).dataset.index || '0', 10)
-        
+
         if (entry.isIntersecting) {
           if (hasAnimated.has(index)) return
-          
+
           hasAnimated.add(index)
           fadeIn(entry.target as HTMLElement, {
             duration: 800,
@@ -71,11 +71,15 @@ const setupObserver = async () => {
   })
 }
 
-watch(entered, (isEntered) => {
-  if (isEntered) {
-    setupObserver()
-  }
-}, { immediate: true })
+watch(
+  entered,
+  (isEntered) => {
+    if (isEntered) {
+      setupObserver()
+    }
+  },
+  { immediate: true },
+)
 
 onUnmounted(() => {
   observer?.disconnect()
@@ -95,7 +99,11 @@ onUnmounted(() => {
           <div class="timeline-marker-inner"></div>
         </div>
         <div
-          :ref="(el) => { if (el) contentRefs[index] = el as HTMLElement }"
+          :ref="
+            (el) => {
+              if (el) contentRefs[index] = el as HTMLElement
+            }
+          "
           :data-index="index"
           class="timeline-content"
         >
