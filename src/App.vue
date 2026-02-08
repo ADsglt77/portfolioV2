@@ -6,6 +6,7 @@ import AboutPage from './pages/AboutPage.vue'
 import TechnologiesPage from './pages/TechnologiesPage.vue'
 import TimelinePage from './pages/TimelinePage.vue'
 import ProjectsPage from './pages/ProjectsPage.vue'
+import Footer from './components/Footer.vue'
 import audioFile from './assets/sound/Flickering-Flames.mp3'
 import { useLenis } from './composables/useLenis'
 
@@ -126,6 +127,7 @@ onUnmounted(() => {
     <TechnologiesPage />
     <TimelinePage />
     <ProjectsPage />
+    <Footer />
   </main>
 </template>
 
