@@ -310,6 +310,6 @@ html.animations-off .site-content .slide-left,
 html.animations-off .site-content .slide-right,
 html.animations-off .site-content .scroll-icon,
 html.animations-off .site-content .immersive-bg {
-	animation-duration: 0s !important;
-	animation-delay: 0s !important;
+	animation-duration: 0s;
+	animation-delay: 0s;
 }

@@ -60,12 +60,20 @@ export function textReveal(
 	const indices = Array.from({ length: spans.length }, (_, i) => i);
 	for (let i = indices.length - 1; i > 0; i--) {
 		const j = Math.floor(Math.random() * (i + 1));
-		[indices[i], indices[j]] = [indices[j]!, indices[i]!];
+		const valI = indices[i];
+		const valJ = indices[j];
+		if (valI !== undefined && valJ !== undefined) {
+			indices[i] = valJ;
+			indices[j] = valI;
+		}
 	}
 
 	indices.forEach((index, i) => {
 		setTimeout(() => {
-			spans[index]!.style.opacity = "1";
+			const span = spans[index];
+			if (span) {
+				span.style.opacity = "1";
+			}
 		}, i * delay);
 	});
 }
