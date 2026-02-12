@@ -26,5 +26,6 @@
 	},
 	"overrides": {
 		"vite": "npm:rolldown-vite@latest"
-	}
+	},
+	"packageManager": "bun@1.3.5"
 }
