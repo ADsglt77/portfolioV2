@@ -1,0 +1,37 @@
+name: CI
+
+on:
+    push:
+
+jobs:
+    quality:
+        name: Biome Check
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: oven-sh/setup-bun@v2
+              with:
+                  bun-version: latest
+            - run: bun install
+            - run: bunx @biomejs/biome ci . --reporter=github
+
+    build:
+        name: Build
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: oven-sh/setup-bun@v2
+              with:
+                  bun-version: latest
+            - run: bun install
+            - run: bun run build
+    knip:
+        name: Knip Check
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: oven-sh/setup-bun@v2
+              with:
+                  bun-version: latest
+            - run: bun install
+            - run: bunx knip --reporter github-actions
