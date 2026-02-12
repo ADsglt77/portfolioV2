@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import Timeline from '../components/Timeline.vue'
-import { timelineData } from '../data/timeline'
+import Timeline from "../components/Timeline.vue";
+import { timelineData } from "../data/timeline";
 </script>
 
 <template>

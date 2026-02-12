@@ -1,41 +1,41 @@
 <script setup lang="ts">
-import { Icon } from '@iconify/vue'
+import { Icon } from "@iconify/vue";
 import {
-  iconVue,
-  iconSymfony,
-  iconNuxt,
-  iconPhp,
-  iconCss,
-  iconLinux,
-  iconTypeScript,
-  iconPhotoshop,
-  iconBdd,
-  iconCursor,
-  iconDocker,
-  iconPython,
-  iconGithubAction,
-  iconFlutter,
-} from '../data/icons'
-import type { Technology } from '../data/projects'
+	iconBdd,
+	iconCss,
+	iconCursor,
+	iconDocker,
+	iconFlutter,
+	iconGithubAction,
+	iconLinux,
+	iconNuxt,
+	iconPhotoshop,
+	iconPhp,
+	iconPython,
+	iconSymfony,
+	iconTypeScript,
+	iconVue,
+} from "../data/icons";
+import type { Technology } from "../data/projects";
 
 const technologies: Technology[] = [
-  { icon: iconVue, label: 'VueJS' },
-  { icon: iconSymfony, label: 'Symfony' },
-  { icon: iconNuxt, label: 'NuxtJS' },
-  { icon: iconPhp, label: 'PHP' },
-  { icon: iconCss, label: 'CSS' },
-  { icon: iconLinux, label: 'Linux' },
-  { icon: iconTypeScript, label: 'TypeScript' },
-  { icon: iconPhotoshop, label: 'Photoshop' },
-  { icon: iconBdd, label: 'BDD' },
-  { icon: iconCursor, label: 'Cursor' },
-  { icon: iconDocker, label: 'Docker' },
-  { icon: iconPython, label: 'Python' },
-  { icon: iconGithubAction, label: 'GitHub' },
-  { icon: iconFlutter, label: 'Flutter' },
-]
+	{ icon: iconVue, label: "VueJS" },
+	{ icon: iconSymfony, label: "Symfony" },
+	{ icon: iconNuxt, label: "NuxtJS" },
+	{ icon: iconPhp, label: "PHP" },
+	{ icon: iconCss, label: "CSS" },
+	{ icon: iconLinux, label: "Linux" },
+	{ icon: iconTypeScript, label: "TypeScript" },
+	{ icon: iconPhotoshop, label: "Photoshop" },
+	{ icon: iconBdd, label: "BDD" },
+	{ icon: iconCursor, label: "Cursor" },
+	{ icon: iconDocker, label: "Docker" },
+	{ icon: iconPython, label: "Python" },
+	{ icon: iconGithubAction, label: "GitHub" },
+	{ icon: iconFlutter, label: "Flutter" },
+];
 
-const technologiesReversed = [...technologies].reverse()
+const technologiesReversed = [...technologies].reverse();
 </script>
 
 <template>

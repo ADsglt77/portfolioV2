@@ -1,99 +1,112 @@
 <script setup lang="ts">
-import { ref, inject, onMounted, onUnmounted, nextTick, watch, type Ref } from 'vue'
-import { Icon } from '@iconify/vue'
-import { fadeIn } from '../lib/fadeIn'
+import { Icon } from "@iconify/vue";
+import {
+	inject,
+	nextTick,
+	onMounted,
+	onUnmounted,
+	type Ref,
+	ref,
+	watch,
+} from "vue";
+import { fadeIn } from "../lib/fadeIn";
 
 interface TimelineItem {
-  date: string
-  organization: string
-  role?: string
-  description?: string
-  type: 'formation' | 'work'
+	date: string;
+	organization: string;
+	role?: string;
+	description?: string;
+	type: "formation" | "work";
 }
 
 interface Props {
-  items: TimelineItem[]
+	items: TimelineItem[];
 }
 
-const props = defineProps<Props>()
-const entered = inject<Ref<boolean>>('entered')!
-const animationsEnabled = inject<{ value: boolean } | undefined>('animationsEnabled')
-const contentRefs = ref<(HTMLElement | null)[]>([])
-const hasAnimated = new Set<number>()
-let observer: IntersectionObserver | null = null
+const props = defineProps<Props>();
+const entered = inject<Ref<boolean>>("entered")!;
+const animationsEnabled = inject<{ value: boolean } | undefined>(
+	"animationsEnabled",
+);
+const contentRefs = ref<(HTMLElement | null)[]>([]);
+const hasAnimated = new Set<number>();
+let observer: IntersectionObserver | null = null;
 
 onMounted(() => {
-  contentRefs.value = Array(props.items.length).fill(null)
-})
+	contentRefs.value = Array(props.items.length).fill(null);
+});
 
 const setupObserver = async () => {
-  if (!entered.value) return
-  await nextTick()
-  await nextTick() // Double nextTick pour s'assurer que les refs sont assignées
+	if (!entered.value) return;
+	await nextTick();
+	await nextTick(); // Double nextTick pour s'assurer que les refs sont assignées
 
-  if (observer) {
-    observer.disconnect()
-  }
+	if (observer) {
+		observer.disconnect();
+	}
 
-  const withAnimations = animationsEnabled?.value
+	const withAnimations = animationsEnabled?.value;
 
-  observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        const index = parseInt((entry.target as HTMLElement).dataset.index || '0', 10)
+	observer = new IntersectionObserver(
+		(entries) => {
+			entries.forEach((entry) => {
+				const index = parseInt(
+					(entry.target as HTMLElement).dataset.index || "0",
+					10,
+				);
 
-        if (entry.isIntersecting) {
-          if (hasAnimated.has(index)) return
+				if (entry.isIntersecting) {
+					if (hasAnimated.has(index)) return;
 
-          hasAnimated.add(index)
-          if (withAnimations) {
-            const target = entry.target as HTMLElement
-            fadeIn(target, {
-              duration: 800,
-              delay: index * 100,
-              translateY: 30,
-            })
-          }
-        } else if (withAnimations) {
-          if (hasAnimated.has(index)) {
-            hasAnimated.delete(index)
-            const target = entry.target as HTMLElement
-            target.style.opacity = '0'
-            target.style.transform = 'translateY(30px)'
-          }
-        }
-      })
-    },
-    { threshold: 0.2 },
-  )
+					hasAnimated.add(index);
+					if (withAnimations) {
+						const target = entry.target as HTMLElement;
+						fadeIn(target, {
+							duration: 800,
+							delay: index * 100,
+							translateY: 30,
+						});
+					}
+				} else if (withAnimations) {
+					if (hasAnimated.has(index)) {
+						hasAnimated.delete(index);
+						const target = entry.target as HTMLElement;
+						target.style.opacity = "0";
+						target.style.transform = "translateY(30px)";
+					}
+				}
+			});
+		},
+		{ threshold: 0.2 },
+	);
 
-  contentRefs.value.forEach((el) => {
-    if (el) {
-      if (withAnimations) {
-        el.style.opacity = '0'
-        el.style.transform = 'translateY(30px)'
-        observer?.observe(el)
-      } else {
-        el.style.opacity = '1'
-        el.style.transform = 'translate(0, 0)'
-      }
-    }
-  })
-}
+	contentRefs.value.forEach((el) => {
+		if (el) {
+			if (withAnimations) {
+				el.style.opacity = "0";
+				el.style.transform = "translateY(30px)";
+				observer?.observe(el);
+			} else {
+				el.style.opacity = "1";
+				el.style.transform = "translate(0, 0)";
+			}
+		}
+	});
+};
 
 watch(
-  [entered, () => animationsEnabled?.value],
-  () => {
-    if (entered.value) {
-      setupObserver()
-    }
-  },
-  { immediate: true },
-)
+	[entered, () => animationsEnabled?.value],
+	() => {
+		if (entered.value) {
+			setupObserver();
+		}
+	},
+	{ immediate: true },
+);
 
 onUnmounted(() => {
-  observer?.disconnect()
-})
+	observer?.disconnect();
+});
 </script>
 
 <template>

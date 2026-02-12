@@ -1,55 +1,55 @@
 <script setup lang="ts">
-import { ref, inject, type Ref } from 'vue'
-import { Icon } from '@iconify/vue'
-import Button from '../components/Button.vue'
-import aboutImg from '../assets/img/about-silhouette-in-forest.jpg'
-import cvPdf from '../assets/CV-Adrien.pdf'
-import { usePinnedTyping } from '../composables/usePinnedTyping'
-import { useTextReveal } from '../composables/useTextReveal'
-import { useFadeIn } from '../composables/useFadeIn'
-import { socialLinks } from '../data/socialLinks'
+import { Icon } from "@iconify/vue";
+import { inject, type Ref, ref } from "vue";
+import cvPdf from "../assets/CV-Adrien.pdf";
+import aboutImg from "../assets/img/about-silhouette-in-forest.jpg";
+import Button from "../components/Button.vue";
+import { useFadeIn } from "../composables/useFadeIn";
+import { usePinnedTyping } from "../composables/usePinnedTyping";
+import { useTextReveal } from "../composables/useTextReveal";
+import { socialLinks } from "../data/socialLinks";
 
-const entered = inject<Ref<boolean>>('entered')!
+const entered = inject<Ref<boolean>>("entered")!;
 
-const fullText = 'Développeur full-stack, web et application mobile'
-const paragraphText = `Je suis alternant chez Therasoft en Bachelor C.D.W.M. (Concepteur Développeur Web et Mobile) passionné par le développement web, le design, et grand amateur de basket-ball. Créatif et curieux, j'aime allier technique et esthétique dans mes projets.`
+const fullText = "Développeur full-stack, web et application mobile";
+const paragraphText = `Je suis alternant chez Therasoft en Bachelor C.D.W.M. (Concepteur Développeur Web et Mobile) passionné par le développement web, le design, et grand amateur de basket-ball. Créatif et curieux, j'aime allier technique et esthétique dans mes projets.`;
 
-const displayedText = ref('')
-const sectionRef = ref<HTMLElement | null>(null)
-const paragraphRef = ref<HTMLParagraphElement | null>(null)
-const buttonRef = ref<HTMLElement | null>(null)
-const socialLinksRef = ref<HTMLElement | null>(null)
+const displayedText = ref("");
+const sectionRef = ref<HTMLElement | null>(null);
+const paragraphRef = ref<HTMLParagraphElement | null>(null);
+const buttonRef = ref<HTMLElement | null>(null);
+const socialLinksRef = ref<HTMLElement | null>(null);
 
 const downloadCV = () => {
-  const link = document.createElement('a')
-  link.href = cvPdf
-  link.download = 'CV-Adrien-Segalat.pdf'
-  document.body.appendChild(link)
-  link.click()
-  document.body.removeChild(link)
-}
+	const link = document.createElement("a");
+	link.href = cvPdf;
+	link.download = "CV-Adrien-Segalat.pdf";
+	document.body.appendChild(link);
+	link.click();
+	document.body.removeChild(link);
+};
 
 usePinnedTyping(sectionRef, fullText, displayedText, {
-  active: entered,
-  threshold: 0.3,
-  typingDuration: 2000,
-})
+	active: entered,
+	threshold: 0.3,
+	typingDuration: 2000,
+});
 
 // Utiliser le composable useTextReveal pour déclencher l'animation au scroll
 useTextReveal(paragraphRef, paragraphText, {
-  active: entered,
-  threshold: 0.5,
-  delay: 3,
-})
+	active: entered,
+	threshold: 0.5,
+	delay: 3,
+});
 
 // Utiliser useFadeIn pour animer le bouton
 useFadeIn(buttonRef, {
-  active: entered,
-  threshold: 0.5,
-  duration: 1500,
-  delay: 300,
-  translateY: 0,
-})
+	active: entered,
+	threshold: 0.5,
+	duration: 1500,
+	delay: 300,
+	translateY: 0,
+});
 </script>
 
 <template>

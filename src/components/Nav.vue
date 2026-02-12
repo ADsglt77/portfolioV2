@@ -1,84 +1,89 @@
 <script setup lang="ts">
-import { ref, inject, computed, onMounted, onUnmounted, type Ref } from 'vue'
-import { Icon } from '@iconify/vue'
-import type Lenis from 'lenis'
-import { scrambleText } from '../lib/textScramble'
-import Button from './Button.vue'
-import { iconSettings, iconSoundOff, iconSoundHigh } from '../data/icons'
+import { Icon } from "@iconify/vue";
+import type Lenis from "lenis";
+import { computed, inject, onMounted, onUnmounted, type Ref, ref } from "vue";
+import { iconSettings, iconSoundHigh, iconSoundOff } from "../data/icons";
+import { scrambleText } from "../lib/textScramble";
+import Button from "./Button.vue";
 
-const audioRef = inject<Ref<HTMLAudioElement | null>>('audioRef')
-const getLenisInstance = inject<() => Lenis | null>('lenis')
-const animationsEnabledRef = inject<Ref<boolean>>('animationsEnabled', ref(true))
-const showSettings = ref(false)
-const isMuted = ref(true) // mettre false en production
+const audioRef = inject<Ref<HTMLAudioElement | null>>("audioRef");
+const getLenisInstance = inject<() => Lenis | null>("lenis");
+const animationsEnabledRef = inject<Ref<boolean>>(
+	"animationsEnabled",
+	ref(true),
+);
+const showSettings = ref(false);
+const isMuted = ref(true); // mettre false en production
 
-const soundIcon = computed(() => (isMuted.value ? iconSoundOff : iconSoundHigh))
+const soundIcon = computed(() =>
+	isMuted.value ? iconSoundOff : iconSoundHigh,
+);
 
 /** Réactif pour le template (évite que le bouton ne mette pas à jour l’état affiché) */
 const isAnimationsEnabled = computed({
-  get: () => animationsEnabledRef.value,
-  set: (v: boolean) => {
-    animationsEnabledRef.value = v
-  },
-})
+	get: () => animationsEnabledRef.value,
+	set: (v: boolean) => {
+		animationsEnabledRef.value = v;
+	},
+});
 
 const toggleMute = () => {
-  isMuted.value = !isMuted.value
-  if (audioRef?.value) {
-    audioRef.value.muted = isMuted.value
-  }
-}
+	isMuted.value = !isMuted.value;
+	if (audioRef?.value) {
+		audioRef.value.muted = isMuted.value;
+	}
+};
 
 const toggleSettings = () => {
-  showSettings.value = !showSettings.value
-}
+	showSettings.value = !showSettings.value;
+};
 
 const toggleAnimations = () => {
-  animationsEnabledRef.value = !animationsEnabledRef.value
-}
+	animationsEnabledRef.value = !animationsEnabledRef.value;
+};
 
 const closeSettings = () => {
-  showSettings.value = false
-}
+	showSettings.value = false;
+};
 
 const handleClickOutside = (e: MouseEvent) => {
-  const target = e.target as HTMLElement
-  if (showSettings.value && !target.closest('.nav-settings')) {
-    closeSettings()
-  }
-}
+	const target = e.target as HTMLElement;
+	if (showSettings.value && !target.closest(".nav-settings")) {
+		closeSettings();
+	}
+};
 
 onMounted(() => {
-  document.addEventListener('click', handleClickOutside)
-})
+	document.addEventListener("click", handleClickOutside);
+});
 onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutside)
-})
+	document.removeEventListener("click", handleClickOutside);
+});
 
 const handleScramble = (e: Event, text: string) => {
-  const target = (e.currentTarget as HTMLElement)?.querySelector('span')
-  if (target) {
-    scrambleText(target, text, {
-      duration: 1000,
-      fps: 10,
-      skipAnimation: !isAnimationsEnabled.value,
-    })
-  }
-}
+	const target = (e.currentTarget as HTMLElement)?.querySelector("span");
+	if (target) {
+		scrambleText(target, text, {
+			duration: 1000,
+			fps: 10,
+			skipAnimation: !isAnimationsEnabled.value,
+		});
+	}
+};
 
 const scrollToSection = (e: Event, sectionId: string) => {
-  e.preventDefault()
-  const lenis = getLenisInstance?.()
-  if (!lenis) return
+	e.preventDefault();
+	const lenis = getLenisInstance?.();
+	if (!lenis) return;
 
-  const element = document.querySelector(sectionId) as HTMLElement | null
-  if (element) {
-    lenis.scrollTo(element, {
-      duration: 5,
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    })
-  }
-}
+	const element = document.querySelector(sectionId) as HTMLElement | null;
+	if (element) {
+		lenis.scrollTo(element, {
+			duration: 5,
+			easing: (t: number) => Math.min(1, 1.001 - 2 ** (-10 * t)),
+		});
+	}
+};
 </script>
 
 <template>

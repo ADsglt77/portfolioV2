@@ -1,43 +1,43 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { Icon } from '@iconify/vue'
-import type { Project } from '../data/projects'
-import { iconPdf, iconLink, iconGithubAction, iconPlay } from '../data/icons'
+import { Icon } from "@iconify/vue";
+import { computed } from "vue";
+import { iconGithubAction, iconLink, iconPdf, iconPlay } from "../data/icons";
+import type { Project } from "../data/projects";
 
 interface Props {
-  project: Project
+	project: Project;
 }
 
-const props = defineProps<Props>()
+const props = defineProps<Props>();
 
 const actions = computed(() => {
-  const items = []
-  if (props.project.links.readmePdf) {
-    items.push({
-      icon: iconPdf,
-      href: props.project.links.readmePdf,
-      ariaLabel: 'Lire le README PDF',
-      external: false,
-    })
-  }
-  if (props.project.links.website) {
-    items.push({
-      icon: iconLink,
-      href: props.project.links.website,
-      ariaLabel: 'Visiter le site web',
-      external: true,
-    })
-  }
-  if (props.project.links.github) {
-    items.push({
-      icon: iconGithubAction,
-      href: props.project.links.github,
-      ariaLabel: 'Voir le code source sur GitHub',
-      external: true,
-    })
-  }
-  return items
-})
+	const items = [];
+	if (props.project.links.readmePdf) {
+		items.push({
+			icon: iconPdf,
+			href: props.project.links.readmePdf,
+			ariaLabel: "Lire le README PDF",
+			external: false,
+		});
+	}
+	if (props.project.links.website) {
+		items.push({
+			icon: iconLink,
+			href: props.project.links.website,
+			ariaLabel: "Visiter le site web",
+			external: true,
+		});
+	}
+	if (props.project.links.github) {
+		items.push({
+			icon: iconGithubAction,
+			href: props.project.links.github,
+			ariaLabel: "Voir le code source sur GitHub",
+			external: true,
+		});
+	}
+	return items;
+});
 </script>
 
 <template>

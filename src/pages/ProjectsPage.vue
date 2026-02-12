@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import Button from '../components/Button.vue'
-import ProjectCard from '../components/ProjectCard.vue'
-import { projects } from '../data/projects'
+import Button from "../components/Button.vue";
+import ProjectCard from "../components/ProjectCard.vue";
+import { projects } from "../data/projects";
 </script>
 
 <template>

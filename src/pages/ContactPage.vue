@@ -1,64 +1,64 @@
 <script setup lang="ts">
-import { ref, inject, type Ref } from 'vue'
-import Button from '../components/Button.vue'
-import contactImg from '../assets/img/contact-campfire-night.jpg'
-import { usePinnedTyping } from '../composables/usePinnedTyping'
-import { useFadeIn } from '../composables/useFadeIn'
+import { inject, type Ref, ref } from "vue";
+import contactImg from "../assets/img/contact-campfire-night.jpg";
+import Button from "../components/Button.vue";
+import { useFadeIn } from "../composables/useFadeIn";
+import { usePinnedTyping } from "../composables/usePinnedTyping";
 
-const entered = inject<Ref<boolean>>('entered')!
+const entered = inject<Ref<boolean>>("entered")!;
 
-const fullText = 'Contactez moi'
+const fullText = "Contactez moi";
 
-const displayedText = ref('')
-const sectionRef = ref<HTMLElement | null>(null)
-const formRef = ref<HTMLElement | null>(null)
+const displayedText = ref("");
+const sectionRef = ref<HTMLElement | null>(null);
+const formRef = ref<HTMLElement | null>(null);
 
 usePinnedTyping(sectionRef, fullText, displayedText, {
-  active: entered,
-  threshold: 0.3,
-  typingDuration: 2000,
-})
+	active: entered,
+	threshold: 0.3,
+	typingDuration: 2000,
+});
 
 useFadeIn(formRef, {
-  active: entered,
-  threshold: 0.5,
-  duration: 1500,
-  delay: 500,
-  translateY: 30,
-})
+	active: entered,
+	threshold: 0.5,
+	duration: 1500,
+	delay: 500,
+	translateY: 30,
+});
 
 const formData = ref({
-  name: '',
-  email: '',
-  subject: '',
-  message: '',
-})
+	name: "",
+	email: "",
+	subject: "",
+	message: "",
+});
 
-const isSubmitting = ref(false)
+const isSubmitting = ref(false);
 
 const handleSubmit = async (e: Event) => {
-  e.preventDefault()
-  if (isSubmitting.value) return
+	e.preventDefault();
+	if (isSubmitting.value) return;
 
-  isSubmitting.value = true
-  
-  // Simuler l'envoi du formulaire
-  await new Promise((resolve) => setTimeout(resolve, 1000))
-  
-  // Ici vous pouvez ajouter la logique d'envoi (email, API, etc.)
-  console.log('Form submitted:', formData.value)
-  
-  // Réinitialiser le formulaire
-  formData.value = {
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
-  }
-  
-  isSubmitting.value = false
-  alert('Message envoyé avec succès !')
-}
+	isSubmitting.value = true;
+
+	// Simuler l'envoi du formulaire
+	await new Promise((resolve) => setTimeout(resolve, 1000));
+
+	// Ici vous pouvez ajouter la logique d'envoi (email, API, etc.)
+	console.log("Form submitted:", formData.value);
+
+	// Réinitialiser le formulaire
+	formData.value = {
+		name: "",
+		email: "",
+		subject: "",
+		message: "",
+	};
+
+	isSubmitting.value = false;
+	alert("Message envoyé avec succès !");
+};
 </script>
 
 <template>

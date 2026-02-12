@@ -1,46 +1,48 @@
 <script setup lang="ts">
-import { ref, inject } from 'vue'
-import { scrambleFromEvent } from '../lib/textScramble'
+import { inject, ref } from "vue";
+import { scrambleFromEvent } from "../lib/textScramble";
 
 interface Props {
-  label?: string
-  disabled?: boolean
-  padding?: string
-  borderRadius?: string
-  type?: 'button' | 'submit' | 'reset'
+	label?: string;
+	disabled?: boolean;
+	padding?: string;
+	borderRadius?: string;
+	type?: "button" | "submit" | "reset";
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  label: '',
-  disabled: false,
-  padding: 'var(--spacing-md)',
-  borderRadius: 'var(--radius-lg) 0',
-  type: 'button',
-})
+	label: "",
+	disabled: false,
+	padding: "var(--spacing-md)",
+	borderRadius: "var(--radius-lg) 0",
+	type: "button",
+});
 
 const emit = defineEmits<{
-  click: [event: MouseEvent]
-}>()
+	click: [event: MouseEvent];
+}>();
 
-const animationsEnabled = inject<{ value: boolean } | undefined>('animationsEnabled')
-const buttonRef = ref<HTMLElement>()
-const displayLabel = ref(props.label)
+const animationsEnabled = inject<{ value: boolean } | undefined>(
+	"animationsEnabled",
+);
+const buttonRef = ref<HTMLElement>();
+const displayLabel = ref(props.label);
 
 const handleClick = (event: MouseEvent) => {
-  if (!props.disabled) {
-    emit('click', event)
-  }
-}
+	if (!props.disabled) {
+		emit("click", event);
+	}
+};
 
 const handleMouseEnter = (e: Event) => {
-  if (props.label && buttonRef.value) {
-    scrambleFromEvent(e, props.label, {
-      duration: 1000,
-      fps: 10,
-      skipAnimation: !animationsEnabled?.value,
-    })
-  }
-}
+	if (props.label && buttonRef.value) {
+		scrambleFromEvent(e, props.label, {
+			duration: 1000,
+			fps: 10,
+			skipAnimation: !animationsEnabled?.value,
+		});
+	}
+};
 </script>
 
 <template>
