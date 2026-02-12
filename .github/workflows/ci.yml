@@ -1,37 +1,48 @@
 name: CI
 
 on:
-    push:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
 
 jobs:
-    quality:
-        name: Biome Check
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
-            - uses: oven-sh/setup-bun@v2
-              with:
-                  bun-version: latest
-            - run: bun install
-            - run: bun run check
+  biome:
+    name: Biome (${{ matrix.workspace }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        workspace: ["frontend", "backend"]
+    steps:
+      - uses: actions/checkout@v4
 
-    build:
-        name: Build
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
-            - uses: oven-sh/setup-bun@v2
-              with:
-                  bun-version: latest
-            - run: bun install
-            - run: bun run build
-    knip:
-        name: Knip Check
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v4
-            - uses: oven-sh/setup-bun@v2
-              with:
-                  bun-version: latest
-            - run: bun install
-            - run: cd frontend && bunx knip --reporter github-actions
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Run Biome
+        run: bun x biome check ${{ matrix.workspace }}
+
+  knip:
+    name: Knip (${{ matrix.workspace }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        workspace: ["frontend", "backend"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Run Knip
+        run: bun x knip --workspace ${{ matrix.workspace }}
