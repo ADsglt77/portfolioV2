@@ -32,7 +32,9 @@ const emit = defineEmits<{
 	"update:modelValue": [value: string];
 }>();
 
-const inputId = computed(() => props.id || `input-${Math.random().toString(36).slice(2, 11)}`);
+const inputId = computed(
+	() => props.id || `input-${Math.random().toString(36).slice(2, 11)}`,
+);
 
 const handleInput = (event: Event) => {
 	const target = event.target as HTMLInputElement | HTMLTextAreaElement;
