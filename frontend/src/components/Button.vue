@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { computed, inject, ref } from "vue";
-import { scrambleText } from "../lib/textScramble";
 import { Icon } from "@iconify/vue";
+import { computed, inject, ref } from "vue";
 import { iconCheck, iconClose } from "../data/icons";
+import { scrambleText } from "../lib/textScramble";
 
 interface Props {
 	label?: string;
