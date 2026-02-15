@@ -16,7 +16,6 @@ watch(entered, (val) => {
 	}
 });
 
-const progress = ref(0);
 const currentDay = ref("");
 const currentTime = ref("");
 let timeIntervalId: number | undefined;
@@ -29,22 +28,6 @@ const bgImage = computed(
 );
 
 onMounted(() => {
-	const startTime = Date.now();
-	const duration = 1000;
-
-	const updateProgress = () => {
-		const elapsed = Date.now() - startTime;
-		const newProgress = Math.min((elapsed / duration) * 100, 100);
-
-		progress.value = newProgress;
-
-		if (newProgress < 100) {
-			requestAnimationFrame(updateProgress);
-		}
-	};
-
-	requestAnimationFrame(updateProgress);
-
 	const updateTime = () => {
 		const now = new Date();
 		currentDay.value = now.toLocaleDateString(undefined, {
