@@ -3,10 +3,10 @@ import { Icon } from "@iconify/vue";
 import { inject, type Ref, ref } from "vue";
 import Button from "../components/Button.vue";
 import HeadingStroke from "../components/HeadingStroke.vue";
-import { iconDownload } from "../data/icons";
 import { useFadeIn } from "../composables/useFadeIn";
 import { usePinnedTyping } from "../composables/usePinnedTyping";
 import { useTextReveal } from "../composables/useTextReveal";
+import { iconDownload } from "../data/icons";
 import { socialLinks } from "../data/socialLinks";
 
 const entered = inject<Ref<boolean>>("entered")!;
@@ -27,7 +27,7 @@ const downloadCV = () => {
 	document.body.appendChild(link);
 	link.click();
 	document.body.removeChild(link);
-	
+
 	isDownloaded.value = true;
 	setTimeout(() => {
 		isDownloaded.value = false;
@@ -40,14 +40,12 @@ usePinnedTyping(sectionRef, fullText, displayedText, {
 	typingDuration: 2000,
 });
 
-// Utiliser le composable useTextReveal pour déclencher l'animation au scroll
 useTextReveal(paragraphRef, paragraphText, {
 	active: entered,
 	threshold: 0.5,
 	delay: 3,
 });
 
-// Utiliser useFadeIn pour animer le bouton
 useFadeIn(buttonRef, {
 	active: entered,
 	threshold: 0.5,
@@ -74,7 +72,7 @@ useFadeIn(buttonRef, {
             @click="downloadCV" 
           />
         </div>
-        <div ref="socialLinksRef" class="social-links">
+        <div class="social-links">
           <a
             v-for="link in socialLinks"
             :key="link.url"
@@ -170,7 +168,6 @@ useFadeIn(buttonRef, {
   .section.about img {
     height: clamp(240px, 44vh, 400px);
   }
-
 
   .section.about .subtitle {
     max-width: 100%;
