@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Button from "../components/Button.vue";
-import { iconExpand } from "../data/icons";
 import ProjectCard from "../components/ProjectCard.vue";
+import { iconExpand } from "../data/icons";
 import { projects } from "../data/projects";
 </script>
 
