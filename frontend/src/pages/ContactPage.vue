@@ -2,8 +2,8 @@
 import { inject, type Ref, ref } from "vue";
 import contactImg from "../assets/img/contact-campfire-night.jpg";
 import Button from "../components/Button.vue";
-import HeadingStroke from "../components/HeadingStroke.vue";
 import Input from "../components/Input.vue";
+import SectionHeader from "../components/SectionHeader.vue";
 import { useFadeIn } from "../composables/useFadeIn";
 import { usePinnedTyping } from "../composables/usePinnedTyping";
 import { iconSend } from "../data/icons";
@@ -116,11 +116,12 @@ const handleSubmit = async (e: Event) => {
 
 <template>
   <section ref="sectionRef" id="contact" class="section contact">
-    <img :src="contactImg" alt="Contact" />
-    <div class="title">
-      <HeadingStroke :text="displayedText" />
-    </div>
-      <form ref="formRef" @submit="handleSubmit" novalidate>
+    <SectionHeader
+      :image-src="contactImg"
+      image-alt="Contact"
+      :displayed-text="displayedText"
+    />
+    <form ref="formRef" @submit="handleSubmit" novalidate>
         <Input
           id="name"
           v-model="formData.name"
@@ -162,33 +163,21 @@ const handleSubmit = async (e: Event) => {
           :success="isSuccess"
           :error="isError"
         />
-      </form>
+    </form>
   </section>
 </template>
 
 <style scoped>
 .section.contact {
-  width: 100%;
-  max-width: 80vw;
-  margin: 0 auto;
-  min-height: 100vh;
-  display: grid;
-  grid-template-columns: minmax(280px, 520px) minmax(320px, 1fr);
-  gap: var(--spacing-2xl);
-  align-items: center;
-}
-
-.section.contact img {
-  width: 100%;
-  height: clamp(360px, 90vh, 760px);
-  object-fit: cover;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--glass-border);
-  grid-row: 1 / 3;
-}
-
-.section.contact .title {
-	align-self: center;
+	width: 100%;
+	max-width: 80vw;
+	margin: 0 auto;
+	min-height: 100vh;
+	display: grid;
+	grid-template-columns: minmax(280px, 520px) minmax(320px, 1fr);
+	gap: var(--spacing-2xl);
+	padding: var(--spacing-3xl) var(--spacing-xl);
+	align-items: center;
 }
 
 form {
@@ -199,15 +188,11 @@ form {
 }
 
 @media (max-width: 900px) {
-  .section.contact {
-    grid-template-columns: 1fr;
-    padding: 0 var(--spacing-xl);
-    gap: var(--spacing-xl);
-  }
-
-  .section.contact img {
-    height: clamp(240px, 44vh, 400px);
-  }
+	.section.contact {
+		grid-template-columns: 1fr;
+		padding: 0 var(--spacing-xl);
+		gap: var(--spacing-xl);
+	}
 }
 
 </style>
