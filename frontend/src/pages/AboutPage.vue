@@ -2,7 +2,7 @@
 import { Icon } from "@iconify/vue";
 import { inject, type Ref, ref } from "vue";
 import Button from "../components/Button.vue";
-import HeadingStroke from "../components/HeadingStroke.vue";
+import SectionHeader from "../components/SectionHeader.vue";
 import { useFadeIn } from "../composables/useFadeIn";
 import { usePinnedTyping } from "../composables/usePinnedTyping";
 import { useTextReveal } from "../composables/useTextReveal";
@@ -57,10 +57,11 @@ useFadeIn(buttonRef, {
 
 <template>
   <section ref="sectionRef" id="about" class="section about">
-    <img src="/img/about-silhouette-in-forest.jpg" alt="About" />
-    <div class="title">
-      <HeadingStroke :text="displayedText" />
-    </div>
+    <SectionHeader
+      image-src="/img/about-silhouette-in-forest.jpg"
+      image-alt="About"
+      :displayed-text="displayedText"
+    />
     <div class="subtitle">
       <p ref="paragraphRef"></p>
       <div class="actions">
@@ -92,85 +93,68 @@ useFadeIn(buttonRef, {
 
 <style scoped>
 .section.about {
-  width: 100%;
-  max-width: 80vw;
-  margin: 0 auto;
-  padding: var(--spacing-3xl) var(--spacing-xl);
-  min-height: 100vh;
-  display: grid;
-  grid-template-columns: minmax(280px, 520px) minmax(320px, 1fr);
-  gap: var(--spacing-2xl);
-  align-items: center;
+	width: 100%;
+	max-width: 80vw;
+	margin: 0 auto;
+	padding: var(--spacing-3xl) var(--spacing-xl);
+	min-height: 100vh;
+	display: grid;
+	grid-template-columns: minmax(280px, 520px) minmax(320px, 1fr);
+	gap: var(--spacing-2xl);
+	align-items: center;
 }
 
-.section.about img {
-  width: 100%;
-  height: clamp(360px, 90vh, 760px);
-  object-fit: cover;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--glass-border);
-  grid-row: 1 / 3;
+.subtitle {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	max-width: 48ch;
+	margin: 0 auto;
+	gap: var(--spacing-lg);
+	align-self: center;
+	line-height: 1.8rem;
 }
 
-.section.about .title {
-  align-self: center;
+.subtitle p {
+	min-height: 160px;
 }
 
-.section.about .subtitle {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  max-width: 48ch;
-  margin: 0 auto;
-  gap: var(--spacing-lg);
-  align-self: center;
-  line-height: 1.8rem;
+.subtitle .actions {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 }
 
-.section.about .subtitle p {
-  min-height: 160px;
+.subtitle .social-links {
+	display: flex;
+	gap: var(--spacing-md);
+	align-items: center;
 }
 
-.section.about .subtitle .actions {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.subtitle .social-link {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 44px;
+	height: 44px;
+	color: var(--muted);
+	transition: all 0.3s ease;
+	text-decoration: none;
 }
 
-.section.about .subtitle .social-links {
-  display: flex;
-  gap: var(--spacing-md);
-  align-items: center;
-}
-
-.section.about .subtitle .social-link {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  color: var(--muted);
-  transition: all 0.3s ease;
-  text-decoration: none;
-}
-
-.section.about .subtitle .social-link:hover {
-  color: var(--text);
+.subtitle .social-link:hover {
+	color: var(--text);
 }
 
 @media (max-width: 900px) {
-  .section.about {
-    grid-template-columns: 1fr;
-    padding: 0 var(--spacing-xl);
-    gap: var(--spacing-xl);
-  }
+	.section.about {
+		grid-template-columns: 1fr;
+		padding: 0 var(--spacing-xl);
+		gap: var(--spacing-xl);
+	}
 
-  .section.about img {
-    height: clamp(240px, 44vh, 400px);
-  }
-
-  .section.about .subtitle {
-    max-width: 100%;
-  }
+	.subtitle {
+		max-width: 100%;
+	}
 }
 </style>
